@@ -1,6 +1,7 @@
 import Component from '../Component.js';
 
 class Select extends Component {
+
     renderHTML() {
         return /*html*/`
             <div id="select-section">

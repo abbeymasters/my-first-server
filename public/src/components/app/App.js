@@ -2,7 +2,10 @@ import Component from '../Component.js';
 import Header from '../app/Header.js';
 import Select from '../options/Select.js';
 import PokeList from '../pokedex/PokeList.js';
+import { getPokemon } from '../../services/pokedex-api.js';
 import Input from '../options/Input.js';
+import hashStorage from '../../services/hash-storage.js';
+import Paging from '../options/Paging.js';
 
 class App extends Component {
     onRender(dom) {
@@ -19,40 +22,54 @@ class App extends Component {
         const inputDOM = input.renderDOM();
         selectSection.appendChild(inputDOM);
 
-        const url = 'https://alchemy-pokedex.herokuapp.com/api/pokedex';
-        fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                let pokeList = new PokeList({ poke: data });
-                let pokeListDOM = pokeList.renderDOM();
-                const contentSection = dom.querySelector('.content');
-                contentSection.appendChild(pokeListDOM);
-            });
+        const paging = new Paging();
+        const buttonSection = dom.querySelector('.button-section');
+        buttonSection.appendChild(paging.renderDOM());
+        
+        const pokeList = new PokeList({ poke: [] });
+        const contentSection = dom.querySelector('.content');
+        contentSection.appendChild(pokeList.renderDOM());
+
+        function loadPokemon() {
+            const options = hashStorage.get();
+            getPokemon(options)
+                .then(data => {
+                    const poke = data.results;
+                    const totalCount = data.count;
+
+                    pokeList.update({ poke: poke });
+                    paging.update({
+                        totalCount: totalCount,
+                        currentPage: +options.page
+                    });
+                });
+        }
+        
+        loadPokemon();
+
+        window.addEventListener('hashchange', () => {
+            loadPokemon();
+        });
     }
+
 
     renderHTML() {
         return /*html*/`
             <div id="root">
                 <main class="wrapper">
                     
-
-                    <section class="sidebar">
-                    </section>
+                    <section class="sidebar"></section>
                     
                     <section class="content"></section>
 
-                    <section class="image-section">
-                        <img class="gif" src="assets/GrayBountifulBlackpanther-small.gif">
-                    </section>
+                    <section class="image-section"><img class="gif" src="assets/GrayBountifulBlackpanther-small.gif"></section>
                     
-                    <section class="button-section">
-                        <button class="button" id="next-button">next page</button>
-                        <button class="button" id="back-button">last page</button>
-                    </section>
+                    <section class="button-section"></section>
+
                 </main>
-                <footer>
-                    <p>made by abbey</p>
-                </footer>
+                
+                <footer><p>made by abbey</p></footer>
+                
             </div>
         `;
     }
