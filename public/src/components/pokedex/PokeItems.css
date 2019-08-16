@@ -1,0 +1,29 @@
+li {
+    list-style: none;
+    width: 250px;
+    text-align: center;
+    border: #ff835a 3px solid;
+    border-radius: 10px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+
+li:hover {
+    box-shadow: 10px 10px 5px#ff835a;
+}
+
+li img {
+    width: 150px;
+}
+
+li p {
+    font-family: nunito;
+    font-size: 14px;
+}
+
+li h2{
+    font-family: Nunito;
+    font-weight: 700;
+    color: #ee5a31;
+    text-align: center;
+}

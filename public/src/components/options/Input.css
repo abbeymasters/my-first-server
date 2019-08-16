@@ -1,0 +1,18 @@
+.sidebar {
+    margin-top: 100px;
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+.sidebar h2 {
+    font-family: Nunito;
+    color: #ee5a31;
+}
+
+input {
+    width: 200px;
+    border: 1px solid #ee5a31;
+    height: 20px;
+    border-radius: 4px;
+    box-sizing: border-box;
+}

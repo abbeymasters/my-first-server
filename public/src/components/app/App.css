@@ -1,0 +1,42 @@
+/*  setting up grid-areas */
+
+.header         {grid-area: header;}
+.sidebar        {grid-area: sidebar;}
+.content        {grid-area: content;}
+.button-section {grid-area: button;} 
+.image-section  {grid-area: gif;}
+
+.wrapper {
+    max-width: 100%;
+    margin: 0 auto;
+    display: grid;
+    grid-gap: 20px;
+    grid-template-areas: 
+        "header"
+        "sidebar"
+        "content"
+        "button"
+        "gif";
+}
+
+@media (mid-width: 480px) {
+    .wrapper {
+        grid-template-columns: 100%;
+        grid-template-areas:
+        "header"
+        "sidebar"
+        "content"
+        "button"
+        "gif";
+    }
+}
+
+@media (min-width: 736px) {
+    .wrapper {
+        grid-template-columns: 1fr 3fr;
+        grid-template-areas: 
+        "header header"
+        "sidebar content"
+        "gif button";
+    }
+}
